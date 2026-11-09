@@ -1,0 +1,144 @@
+[INFO] Trainer: ngp | 2023-05-10_13-07-53 | cuda:0 | fp16 | nine_crops_sdf
+[INFO] #parameters: 12245936
+[INFO] Loading latest checkpoint ...
+[WARN] No checkpoint found, model randomly initialized.
+==> Start Training Epoch 1, lr=0.000100 ...
+==> Finished Epoch 1.
+++> Evaluate at epoch 1 ...
+++> Evaluate epoch 1 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_1.ply
+==> Finished saving mesh.
+[INFO] New best result: None --> 0.18918435272426917
+==> Start Training Epoch 2, lr=0.000100 ...
+==> Finished Epoch 2.
+++> Evaluate at epoch 2 ...
+++> Evaluate epoch 2 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_2.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.18918435272426917 --> 0.1453534113939341
+==> Start Training Epoch 3, lr=0.000100 ...
+==> Finished Epoch 3.
+++> Evaluate at epoch 3 ...
+++> Evaluate epoch 3 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_3.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.1453534113939341 --> 0.12377328478304467
+==> Start Training Epoch 4, lr=0.000100 ...
+==> Finished Epoch 4.
+++> Evaluate at epoch 4 ...
+++> Evaluate epoch 4 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_4.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.12377328478304467 --> 0.0968433458208963
+==> Start Training Epoch 5, lr=0.000100 ...
+==> Finished Epoch 5.
+++> Evaluate at epoch 5 ...
+++> Evaluate epoch 5 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_5.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.0968433458208963 --> 0.06982578279335887
+==> Start Training Epoch 6, lr=0.000100 ...
+==> Finished Epoch 6.
+++> Evaluate at epoch 6 ...
+++> Evaluate epoch 6 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_6.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.06982578279335887 --> 0.04919669051100711
+==> Start Training Epoch 7, lr=0.000100 ...
+==> Finished Epoch 7.
+++> Evaluate at epoch 7 ...
+++> Evaluate epoch 7 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_7.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.04919669051100711 --> 0.037579182519825644
+==> Start Training Epoch 8, lr=0.000100 ...
+==> Finished Epoch 8.
+++> Evaluate at epoch 8 ...
+++> Evaluate epoch 8 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_8.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.037579182519825644 --> 0.031555806609004845
+==> Start Training Epoch 9, lr=0.000100 ...
+==> Finished Epoch 9.
+++> Evaluate at epoch 9 ...
+++> Evaluate epoch 9 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_9.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.031555806609004845 --> 0.02811666036102669
+==> Start Training Epoch 10, lr=0.000100 ...
+==> Finished Epoch 10.
+++> Evaluate at epoch 10 ...
+++> Evaluate epoch 10 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_10.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.02811666036102669 --> 0.025888036111145724
+==> Start Training Epoch 11, lr=0.000010 ...
+==> Finished Epoch 11.
+++> Evaluate at epoch 11 ...
+++> Evaluate epoch 11 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_11.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.025888036111145724 --> 0.02516142293644265
+==> Start Training Epoch 12, lr=0.000010 ...
+==> Finished Epoch 12.
+++> Evaluate at epoch 12 ...
+++> Evaluate epoch 12 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_12.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.02516142293644265 --> 0.024818878021815663
+==> Start Training Epoch 13, lr=0.000010 ...
+==> Finished Epoch 13.
+++> Evaluate at epoch 13 ...
+++> Evaluate epoch 13 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_13.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.024818878021815663 --> 0.024405872057895777
+==> Start Training Epoch 14, lr=0.000010 ...
+==> Finished Epoch 14.
+++> Evaluate at epoch 14 ...
+++> Evaluate epoch 14 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_14.ply
+==> Finished saving mesh.
+==> Start Training Epoch 15, lr=0.000010 ...
+==> Finished Epoch 15.
+++> Evaluate at epoch 15 ...
+++> Evaluate epoch 15 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_15.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.024405872057895777 --> 0.024054100289797403
+==> Start Training Epoch 16, lr=0.000010 ...
+==> Finished Epoch 16.
+++> Evaluate at epoch 16 ...
+++> Evaluate epoch 16 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_16.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.024054100289797403 --> 0.023996443183147108
+==> Start Training Epoch 17, lr=0.000010 ...
+==> Finished Epoch 17.
+++> Evaluate at epoch 17 ...
+++> Evaluate epoch 17 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_17.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.023996443183147108 --> 0.023882288370030893
+==> Start Training Epoch 18, lr=0.000010 ...
+==> Finished Epoch 18.
+++> Evaluate at epoch 18 ...
+++> Evaluate epoch 18 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_18.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.023882288370030893 --> 0.023458547209125602
+==> Start Training Epoch 19, lr=0.000010 ...
+==> Finished Epoch 19.
+++> Evaluate at epoch 19 ...
+++> Evaluate epoch 19 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_19.ply
+==> Finished saving mesh.
+[INFO] New best result: 0.023458547209125602 --> 0.02332490024887654
+==> Start Training Epoch 20, lr=0.000010 ...
+==> Finished Epoch 20.
+++> Evaluate at epoch 20 ...
+++> Evaluate epoch 20 Finished.
+==> Saving mesh to nine_crops_sdf/validation/ngp_20.ply
+==> Finished saving mesh.
+==> Saving mesh to nine_crops_sdf/results/output.ply
+==> Finished saving mesh.

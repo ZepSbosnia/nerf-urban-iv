@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.pyc
+*.egg-info/
+
+# Build delle estensioni CUDA
+build/
+*.so
+*.o
+
+# Dati, risultati, checkpoint
+data/
+workspace/
+trial*/
+*.pth
+*.ckpt
+*.mp4
+*.ply
+
+# Aggiungi qui i tuoi file/cartelle da escludere
+# nome_cartella/
+# nome_file.ext
+milano_GPS_transp/
+results/
+results.zip
+VR_res/
+VR_Radon/
+*.pth.tar
+checkpoints/
+t_colors.txt
+vertices.txt
