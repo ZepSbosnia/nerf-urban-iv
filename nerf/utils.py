@@ -661,10 +661,10 @@ def DP_get_weight(density,rays):
     alpha = 1 - exp_prod
     # Calculate the cumulative sum along the second dimension (dimension 1)
 
-    T =  torch.exp(torch.cumsum(product, dim=1))
+    # transmittance must be exclusive: T_i = exp(-sum_{j<i} sigma_j * delta_j), so T_0 = 1
+    T = torch.exp(torch.cumsum(product, dim=1) - product)
 
     w = alpha * T
-    m = torch.mean(w)
     return w
 
 class PSNRMeter:
@@ -1147,7 +1147,7 @@ class Trainer(object):
           #  total_var = loss_TV(binary_mesh , float(self.TV_lambda),float(self.Huber_eps) )# DP !!! original
            #total_var_rec = loss_TV(1/(.001+density_outputs ), float(self.TV_lambda),float(self.Huber_eps))
             #loss_dens = 0.01 * isolated_points_loss(dens)
-            loss += total_var.item() #DP !!! uncomment to add new terms to the loss
+            loss += total_var # keep it a tensor: .item() would detach it and give zero gradient
 
         
         if self.MS_lambda != 0 :
@@ -1240,7 +1240,7 @@ class Trainer(object):
             w = DP_get_weight(density_outputs[0,:,:-1], rays[0,:] )
             #dist_loss = self.DP_loss_distortion(t, w)
             dist_loss_val = DP_loss_dist(t,w, float(self.dist_loss))
-            loss += dist_loss_val.item()
+            loss += dist_loss_val # keep it a tensor: .item() would detach it and give zero gradient
         # extra loss
         # pred_weights_sum = outputs['weights_sum'] + 1e-8
         # loss_ws = - 1e-1 * pred_weights_sum * torch.log(pred_weights_sum) # entropy to encourage weights_sum to be 0 or 1.

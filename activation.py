@@ -45,28 +45,26 @@ class _trunc_DP_sigmoid(Function):
     @custom_bwd
     def backward(ctx, g):
         x = ctx.saved_tensors[0]
-        sigmoid_derivative = torch.sigmoid(x) * (1 - torch.sigmoid(x))
-        grad_input = g *  sigmoid_derivative * (torch.sigmoid(x) )
-        return grad_input
-    
+        s = torch.sigmoid(x)
+        # d/dx sigmoid(x) = s * (1 - s)
+        return g * s * (1 - s)
+
 
 class _SelectiveSigmoid_DP(Function):
+    # sigmoid(5x), computed with torch.sigmoid to avoid exp overflow (inf/inf -> NaN) for very negative x
     @staticmethod
+    @custom_fwd(cast_inputs=torch.float32) # cast to float32
     def forward(ctx, input):
-        ctx.save_for_backward(input)
-        output = 1 / (1 + torch.exp(-5 * input))
+        output = torch.sigmoid(5 * input)
+        ctx.save_for_backward(output)
         return output
 
     @staticmethod
+    @custom_bwd
     def backward(ctx, grad_output):
-        input, = ctx.saved_tensors
-        grad_input = grad_beta = None
-
-        if ctx.needs_input_grad[0]:
-            exp_beta_input = torch.exp(-5 * input)
-            grad_input = 5 * exp_beta_input / (1 + exp_beta_input)**2 * grad_output
-
-        return grad_input
+        s, = ctx.saved_tensors
+        # d/dx sigmoid(5x) = 5 * s * (1 - s)
+        return 5 * s * (1 - s) * grad_output
 
 # Scale and shift function to map sigmoid output to [0, 5]
 def scale_and_shift(output):
