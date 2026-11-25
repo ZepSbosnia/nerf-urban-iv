@@ -1,7 +1,8 @@
 import torch
 import argparse
-import os 
-import sys 
+import os
+import sys
+import json
 
 from nerf.provider import DP_get_coord
 from nerf.provider import DP_change_permission
@@ -109,9 +110,33 @@ if __name__ == '__main__':
     parser.add_argument('--plot', action='store_true',help="set if u want to have plot starting from latest checkpoint")
     parser.add_argument('--dist_img', action='store_true',help="set if u want to have images of distances ")
     parser.add_argument('--plane', action='store_true',help="set if u want to have a plane mesh saved ")
+
+    # georeferencing of exported meshes / point clouds (see nerf/georef.py)
+    parser.add_argument('--georef', action='store_true', help="also write ENU / CRS / wall-aligned copies of exported meshes")
+    parser.add_argument('--georef_transforms', type=str, default=None, help="transforms.json with georef info (default: <path>/transforms.json)")
+    parser.add_argument('--georef_ref_lla', type=str, default=None, help="reconstruction.json or reference_lla.json, if transforms.json has no reference_lla")
+    parser.add_argument('--georef_crs', type=str, default='EPSG:32632', help="projected CRS for the output (metric)")
+    parser.add_argument('--walls', type=str, default=None, help=".npy of map wall points used for the rigid 2D alignment")
+    parser.add_argument('--walls_crs', type=str, default='EPSG:3857', help="CRS of --walls")
+    parser.add_argument('--align_max_angle', type=float, default=10.0, help="max rotation (deg) allowed in the wall alignment")
+    parser.add_argument('--align_z_band', type=float, nargs=2, default=None, help="use only points with height in [min, max] m for the alignment")
     
  
     opt = parser.parse_args()
+
+    def run_georef(ply_path):
+        if not (opt.georef and ply_path):
+            return
+        from nerf.georef import georef_export
+        ref = None
+        if opt.georef_ref_lla:
+            with open(opt.georef_ref_lla) as f:
+                j = json.load(f)
+            ref = j[0]['reference_lla'] if isinstance(j, list) else j.get('reference_lla', j)
+        georef_export(ply_path, opt.georef_transforms or os.path.join(opt.path, 'transforms.json'),
+                      scale=opt.scale, offset=opt.offset, crs=opt.georef_crs, reference_lla=ref,
+                      walls=opt.walls, walls_crs=opt.walls_crs, max_angle_deg=opt.align_max_angle,
+                      z_band=opt.align_z_band)
 
     dens_clip = opt.dens_clip 
     threshold = opt.mesh_thresh 
@@ -245,7 +270,7 @@ if __name__ == '__main__':
                 first_point_name = first_point_name + "_mesh_thresh_"+str(opt.mesh_thresh)
             if opt.mesh_thresh_up != float('inf') : 
                 first_point_name = first_point_name + "_up_"+str(opt.mesh_thresh_up)
-            trainer.save_mesh_boundary(train_loader,file_name =first_point_name,ray_start=opt.min_near,threshold=opt.mesh_thresh,threshold_up=opt.mesh_thresh_up)
+            run_georef(trainer.save_mesh_boundary(train_loader,file_name =first_point_name,ray_start=opt.min_near,threshold=opt.mesh_thresh,threshold_up=opt.mesh_thresh_up))
         if opt.dist_img:
             train_loader = NeRFDataset(opt, device=device, type='train',downscale=2,plot = opt.plot).dataloader()
             trainer.DP_distance_imgs(train_loader, ray_start=opt.min_near)
@@ -268,7 +293,7 @@ if __name__ == '__main__':
 
         trainer.test(test_loader, write_video=True) # test and save video
         
-        trainer.save_mesh(resolution=resolution, threshold=threshold)
+        run_georef(trainer.save_mesh(resolution=resolution, threshold=threshold))
         '''
     if opt.get_density:
         
@@ -295,9 +320,9 @@ if __name__ == '__main__':
             DP_change_permission(str(opt.workspace))
             trainer.test(test_loader, write_video=True) # test and save video
             if opt.mesh_partial:
-                trainer.save_mesh(resolution=resolution, threshold=threshold,v1=v1 , v2 = v2 , v3 = v3) 
+                run_georef(trainer.save_mesh(resolution=resolution, threshold=threshold,v1=v1 , v2 = v2 , v3 = v3))
             else:
-                trainer.save_mesh(resolution=resolution, threshold=threshold)
+                run_georef(trainer.save_mesh(resolution=resolution, threshold=threshold))
             if test_loader.has_gt:
                 trainer.evaluate(test_loader) # blender has gt, so evaluate it.
     
@@ -346,7 +371,7 @@ if __name__ == '__main__':
                     first_point_name = first_point_name + "_mesh_thresh_"+str(opt.mesh_thresh)
                 if opt.mesh_thresh_up != float('inf') : 
                     first_point_name = first_point_name + "_up_"+str(opt.mesh_thresh_up)
-                trainer.save_mesh_boundary(train_load,file_name =first_point_name,ray_start=opt.min_near,threshold=opt.mesh_thresh,threshold_up=opt.mesh_thresh_up)
+                run_georef(trainer.save_mesh_boundary(train_load,file_name =first_point_name,ray_start=opt.min_near,threshold=opt.mesh_thresh,threshold_up=opt.mesh_thresh_up))
             if opt.dist_img:
                 train_loader = NeRFDataset(opt, device=device, type='train',downscale=2,plot=True).dataloader()
                 trainer.DP_distance_imgs(train_loader, ray_start=opt.min_near)

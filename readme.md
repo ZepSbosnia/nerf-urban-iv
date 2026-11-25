@@ -304,3 +304,27 @@ If you find this work useful, a citation will be appreciated via:
     ```
 
 * The NeRF GUI is developed with [DearPyGui](https://github.com/hoffstadt/DearPyGui).
+
+# Georeferencing (urban fork)
+
+Replaces the old `sfm_to_colmap.py -> torchngp_to_sfm.py -> decode_ply.py -> from_local_togeoref.py -> chamfer_minimizer_v2.py` chain.
+
+```bash
+# 1. OpenSfM reconstruction -> transforms.json (+ "georef" block with the exact inverse parameters)
+python tools/opensfm2nerf.py data/folder --ext png
+
+# 2. train / export as usual, adding --georef (and optionally the map walls)
+python main_nerf.py data/folder -O --MS_lambda 1e-2 --max_epoch 101 --workspace ws --first_point \
+    --georef --walls data/folder/walls_v2.npy --walls_crs EPSG:3857 --align_z_band 1 10
+
+# or, for a mesh / point cloud already exported (NeRF coordinates):
+python -m nerf.georef ws/.../mesh.ply --transforms data/folder/transforms.json \
+    [--reference_lla data/folder/reconstruction.json] --walls walls_v2.npy
+```
+
+Outputs next to each exported `.ply`:
+* `*_enu.ply`: OpenSfM topocentric ENU, metres around `reference_lla`.
+* `*_epsg32632.ply` + `*_origin.json`: UTM 32N (default `--georef_crs`). PLY stores float32, so vertices are saved minus a rounded origin (add it back, or use the `.npz` with full float64 coordinates).
+* `*_epsg32632_aligned.*`: after a rigid 2D alignment (trimmed ICP, max `--align_max_angle` degrees) to the map walls.
+
+`--scale` / `--offset` must be the same as in training. Old `transforms.json` files (only `up`/`totp`/`avglen`) work, but need `--georef_ref_lla`.

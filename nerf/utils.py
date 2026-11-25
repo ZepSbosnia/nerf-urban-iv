@@ -1763,6 +1763,7 @@ class Trainer(object):
        #s print(torch.cat(xyzs, dim=0))
         mesh = trimesh.Trimesh(vertices=xyzs.cpu(),vertex_colors = rgbs.cpu())
         mesh.export(save_path+"/"+name)
+        return save_path+"/"+name
     
     def DP_save_plane(self,loader, save_path=None,file_name = None, threshold=9, threshold_up=np.inf,n_samples = 1024, z_val =0.0):
 
@@ -1930,6 +1931,7 @@ class Trainer(object):
         mesh.export(save_path)
 
         self.log(f"==> Finished saving mesh.")
+        return save_path
 
     ### ------------------------------
 
