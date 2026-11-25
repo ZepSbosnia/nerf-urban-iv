@@ -29,3 +29,11 @@ VR_Radon/
 checkpoints/
 t_colors.txt
 vertices.txt
+
+# debug/analysis outputs (removed from repo)
+output.txt
+rays_d.txt
+*.npy
+*.npz
+rand_pose/
+clamped*.png
